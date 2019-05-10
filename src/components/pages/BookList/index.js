@@ -17,9 +17,9 @@ class BookList extends Component {
     
   }
 
-  searchBooks = async (query) => {
+  searchBooks = async (search, searchBy) => {
     this.setState({ loading: true });
-    const res = await api.get(`?name=${query}`);
+    const res = await api.get(`?${searchBy}=${search}`);
     const data = res.data;
 
     if (data.length === 0) {
@@ -48,20 +48,19 @@ class BookList extends Component {
     );
 
     return this.state.items.map(book => {
-      console.log(book);
       return (
-      <BookCard
-        key={book._id}
-        title={book.name}
-        author={book.author}
-        imageLink={book.picture}
-        publisher={book.publisher}
-        price={book.price}
-        isbn={book.ISBN}
-        description={book.description}
-        link={book.link}
-        store={book.store}
-      />
+        <BookCard
+          key={book._id}
+          title={book.name}
+          author={book.author}
+          imageLink={book.picture}
+          publisher={book.publisher}
+          price={book.price}
+          isbn={book.ISBN}
+          description={book.description}
+          link={book.link}
+          store={book.store}
+        />
     )});
   }
 
@@ -73,7 +72,7 @@ class BookList extends Component {
         <SearchInput
           searchBooks={this.searchBooks}
         />
-        <Spin size="large" spinning={loading}>
+        <Spin style={{ marginTop: 20 }}size="large" spinning={loading}>
           <List>
             {this.renderItems()}
           </List>
