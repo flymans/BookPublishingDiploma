@@ -12,6 +12,7 @@ class BookList extends Component {
     items: [],
     loading: false,
     total: 0,
+    loaded: false,
   };
 
   async componentDidMount() {
@@ -25,8 +26,10 @@ class BookList extends Component {
 
     if (data.length === 0) {
       this.setState({
-        items: '',
+        items: [],
         loading: false,
+        total: 0,
+        loaded: true,
       });
 
       return;
@@ -40,7 +43,7 @@ class BookList extends Component {
   }
 
   renderItems = () => {
-    if (!this.state.items) return (
+    if (!this.state.items.length && this.state.loaded) return (
       <Alert
         message="Книги не найдены"
         type="info"
@@ -68,13 +71,12 @@ class BookList extends Component {
 
   render() {
     const { loading, total } = this.state;
-
     return (
       <>
         <SearchInput
           searchBooks={this.searchBooks}
         />
-        {total !== 0 && <p>Найдено книг: {total}</p>}
+        {total > 0 && <p>Найдено книг: {total}</p>}
         <Spin style={{ marginTop: 20 }}size="large" spinning={loading}>
           <List>
             {this.renderItems()}
