@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Layout from './components/common/Layout';
 import BookList from './components/pages/BookList';
-import BookDetails from './components/pages/BookDetails';
+
 
 const App = () => (
   <Layout>
@@ -13,7 +13,6 @@ const App = () => (
         <Redirect to="/list" />
       </Route>
 
-      <Route path="/list/:id" component={BookDetails} />
       <Route path="/list" component={BookList} />
     </Switch>
   </Layout>

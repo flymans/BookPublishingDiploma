@@ -2,6 +2,8 @@ import React from "react";
 
 import styled from "styled-components";
 
+import media from '../../../../utils/media';
+
 import { Card, Icon } from "antd";
 
 const { Meta } = Card;
@@ -18,8 +20,8 @@ const BookCard = ({ title, author, publisher, imageLink, price, isbn, descriptio
       </ImageContainer>
       <div>
         <h2>{escape(title)}</h2>
-        <Meta title={author} description={`Издательство: ${escape(publisher)}`} />
-        <Description>{escape(description)}</Description>
+        <Meta title={author} description={publisher ? `Издательство: ${ escape(publisher) }` : null} />
+        <Description>{description ? escape(description) : null}</Description>
         <p>Магазин: {store}, ISBN: {isbn}</p>
         <p>Цена: <strong>{price}</strong> ₽</p>
       </div>
@@ -29,6 +31,9 @@ const BookCard = ({ title, author, publisher, imageLink, price, isbn, descriptio
 
 const Wrapper = styled.div`
   display: flex;
+  ${media.phone`
+  flex-direction: column;
+`}
 `;
 
 const ImageContainer = styled.div`

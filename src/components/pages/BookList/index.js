@@ -11,6 +11,7 @@ class BookList extends Component {
   state = {
     items: [],
     loading: false,
+    total: 0,
   };
 
   async componentDidMount() {
@@ -20,7 +21,7 @@ class BookList extends Component {
   searchBooks = async (search, searchBy) => {
     this.setState({ loading: true });
     const res = await api.get(`?${searchBy}=${search}`);
-    const data = res.data;
+    const { data, meta } = res.data;
 
     if (data.length === 0) {
       this.setState({
@@ -34,6 +35,7 @@ class BookList extends Component {
     this.setState({
       items: Array.isArray(data) ? data : [data],
       loading: false,
+      total: meta.total,
     });
   }
 
@@ -65,13 +67,14 @@ class BookList extends Component {
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, total } = this.state;
 
     return (
       <>
         <SearchInput
           searchBooks={this.searchBooks}
         />
+        {total !== 0 && <p>Найдено книг: {total}</p>}
         <Spin style={{ marginTop: 20 }}size="large" spinning={loading}>
           <List>
             {this.renderItems()}
